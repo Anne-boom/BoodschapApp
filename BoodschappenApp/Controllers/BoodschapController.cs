@@ -12,34 +12,145 @@ namespace BoodschappenApp.Controllers
     public class BoodschapController : Controller
     {
 
-        private DBingredient db = new DBingredient();
+        //private DBingredient db = new DBingredient();
+
         // GET: Boodschap
         public ActionResult Index()
         {
-            return View(db.BoodschapIngredients.ToList());
+            User user = (User)Session["user"];
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "User");
+            }
+            //DBingredient context = new DBingredient();
+            using (DBingredient context = new DBingredient())
+            {
+                int boodschapLijstID = user.boodschapLijst.BoodschapLijstID;
+                BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapLijstID);
+                //List<BoodschapIngredient> lijst = context.BoodschapIngredients.ToList();
+
+                if (boodschapLijst != null)
+                {
+
+                    foreach (BoodschapIngredient boodschapIngredient in boodschapLijst.BoodschapIngredients)
+                    {
+                        int ingredientID = boodschapIngredient.ingredient.ingredientID;
+                        Ingredient ig = context.Ingredients.Find(ingredientID);
+                        boodschapIngredient.ingredient = ig;
+                    }
+                    return View(boodschapLijst.BoodschapIngredients);
+                }
+
+                return View();
+            }
+
         }
+
+        [HttpPost]
+        public ActionResult Index(string input)
+        {
+            User user = (User)Session["user"];
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "User");
+            }
+            using (DBingredient context = new DBingredient())
+            {
+
+                int boodschapLijstID = user.boodschapLijst.BoodschapLijstID;
+
+                BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapLijstID);
+                //List<InventoryIngredient> lijst = context.Users.Fin;
+                if (boodschapLijst != null)
+                {
+                    foreach (BoodschapIngredient boodschapIngredient in boodschapLijst.BoodschapIngredients)
+                    {
+
+
+                        int ingredientID = boodschapIngredient.ingredient.ingredientID;
+                        Ingredient ig = context.Ingredients.Find(ingredientID);
+                        boodschapIngredient.ingredient = ig;
+
+                    }
+
+                    List<BoodschapIngredient> filterNaam = boodschapLijst.BoodschapIngredients.Where(e => e.ingredient.name.Contains(input)).ToList();
+
+                    List<BoodschapIngredient> filterMerk = boodschapLijst.BoodschapIngredients.Where(e => e.ingredient.merk.Contains(input)).ToList();
+
+                    foreach (BoodschapIngredient boodschapIngredient2 in filterMerk)
+                    {
+                        int ID = boodschapIngredient2.BoodschapIngredientID;
+
+
+                        if (!filterNaam.Exists(x => x.BoodschapIngredientID == ID))
+                        {
+                            filterNaam.Add(boodschapIngredient2);
+                        }
+                    }
+
+                    return View(filterNaam);
+                }
+
+                return View();
+            }
+        }
+
 
         // GET: Ingredients/Create
         public ActionResult Toevoegen()
         {
-            return View(db.Ingredients.ToList());
+            using (DBingredient context = new DBingredient())
+            {
+                return View();
+            }
+                
         }
 
-     
-        public ActionResult AddInventory(int? id)
+        [HttpPost]
+        public ActionResult Toevoegen(string input)
         {
-            if (id == null)
+            using (DBingredient context = new DBingredient())
             {
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+                List<Ingredient> lijstIngredients = context.Ingredients.ToList();
+
+                List<Ingredient> filterNaam = lijstIngredients.Where(e => e.name.Contains(input)).ToList();
+                List<Ingredient> filterMerk = lijstIngredients.Where(e => e.merk.Contains(input)).ToList();
+
+                foreach (Ingredient ingredient in filterMerk)
+                {
+                    int ID = ingredient.ingredientID;
+
+                    if (!filterNaam.Exists(x => x.ingredientID == ID))
+                    {
+                        filterNaam.Add(ingredient);
+                    }
+                }
+                return View(filterNaam);
             }
 
-            BoodschapIngredient boodschapIngredient = new BoodschapIngredient();
+        }
 
-            boodschapIngredient.ingredient = db.Ingredients.Find(id);
 
-            ViewBag.IngredientID = id;
+        public ActionResult AddInventory(int? id)
+        {
+            using (DBingredient context = new DBingredient())
+            {
 
-            return View(boodschapIngredient);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+                }
+
+                BoodschapIngredient boodschapIngredient = new BoodschapIngredient();
+
+                boodschapIngredient.ingredient = context.Ingredients.Find(id);
+
+                ViewBag.IngredientID = id;
+
+                return View(boodschapIngredient);
+            }
 
         }
 
@@ -50,34 +161,54 @@ namespace BoodschappenApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddInventory([Bind(Include = "BoodschapingredientID,ingredient,Hoeveelheid,Eenheid")] BoodschapIngredient boodschapIngredient)
+        public ActionResult AddInventory([Bind(Include = "BoodschapLijstID,ingredient,Hoeveelheid,Eenheid")] BoodschapIngredient boodschapIngredient)
         {
-            if (ModelState.IsValid)
+            using (DBingredient context = new DBingredient())
             {
-                Ingredient ig = db.Ingredients.Find(boodschapIngredient.ingredient.ingredientID);
-                boodschapIngredient.ingredient = ig;
-                db.BoodschapIngredients.Add(boodschapIngredient);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            return View(boodschapIngredient);
+                if (ModelState.IsValid)
+                {
+                    User user = (User)Session["user"];
+                    int UserID = user.UserID;
+                    User indexUser = context.Users.Find(UserID);
+
+                    Ingredient ig = context.Ingredients.Find(boodschapIngredient.ingredient.ingredientID);
+                    boodschapIngredient.ingredient = ig;
+                    context.BoodschapIngredients.Add(boodschapIngredient);
+                    context.SaveChanges();
+
+                    indexUser.boodschapLijst.BoodschapIngredients.Add(boodschapIngredient);
+                    context.Entry(indexUser.boodschapLijst).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(boodschapIngredient);
+            }
         }
 
 
         // GET: Ingredients/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            //DBingredient context = new DBingredient();
+            using (DBingredient context = new DBingredient())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                BoodschapIngredient boodschapIngredient = context.BoodschapIngredients.Find(id);
+                if (boodschapIngredient == null)
+                {
+                    return HttpNotFound();
+                }
+                int ingredientID = boodschapIngredient.ingredient.ingredientID;
+                Ingredient ig = context.Ingredients.Find(ingredientID);
+                boodschapIngredient.ingredient = ig;
+
+                return View(boodschapIngredient);
             }
-            BoodschapIngredient boodschapIngredient = db.BoodschapIngredients.Find(id);
-            if (boodschapIngredient == null)
-            {
-                return HttpNotFound();
-            }
-            return View(boodschapIngredient);
         }
 
         // POST: Ingredients/Edit/5
@@ -87,30 +218,42 @@ namespace BoodschappenApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "BoodschapIngredientID,Ingredient,Hoeveelheid,Eenheid")] BoodschapIngredient boodschapIngredient)
         {
-            if (ModelState.IsValid)
+            using (DBingredient context = new DBingredient())
             {
-                Ingredient ig = db.Ingredients.Find(boodschapIngredient.ingredient.ingredientID);
-                boodschapIngredient.ingredient = ig;
-                db.Entry(boodschapIngredient).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    Ingredient ig = context.Ingredients.Find(boodschapIngredient.ingredient.ingredientID);
+                    boodschapIngredient.ingredient = ig;
+                    context.Entry(boodschapIngredient).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(boodschapIngredient);
             }
-            return View(boodschapIngredient);
         }
 
         // GET: Ingredients/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            //DBingredient context = new DBingredient();
+            using (DBingredient context = new DBingredient())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                BoodschapIngredient boodschapIngredient = context.BoodschapIngredients.Find(id);
+                if (boodschapIngredient == null)
+                {
+                    return HttpNotFound();
+                }
+
+                int ingredientID = boodschapIngredient.ingredient.ingredientID;
+                Ingredient ig = context.Ingredients.Find(ingredientID);
+                boodschapIngredient.ingredient = ig;
+
+                return View(boodschapIngredient);
             }
-            BoodschapIngredient ingredient = db.BoodschapIngredients.Find(id);
-            if (ingredient == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ingredient);
         }
 
         // POST: Ingredients/Delete/5
@@ -118,35 +261,52 @@ namespace BoodschappenApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            BoodschapIngredient ingredient = db.BoodschapIngredients.Find(id);
-            db.BoodschapIngredients.Remove(ingredient);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            using (DBingredient context = new DBingredient())
+            {
+                BoodschapIngredient ingredient = context.BoodschapIngredients.Find(id);
+                context.BoodschapIngredients.Remove(ingredient);
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
 
         public ActionResult Gekocht(int? id)
         {
-            if (id == null)
+            using (DBingredient context = new DBingredient())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                BoodschapIngredient boodschapIngredient = context.BoodschapIngredients.Find(id);
+                if (boodschapIngredient == null)
+                {
+                    return HttpNotFound();
+                }
+
+                User user = (User)Session["user"];
+
+                InventoryIngredient inventoryIngredient = new InventoryIngredient();
+                inventoryIngredient.ingredient = boodschapIngredient.ingredient;
+                inventoryIngredient.Hoeveelheid = boodschapIngredient.Hoeveelheid;
+                inventoryIngredient.Eenheid = boodschapIngredient.Eenheid;
+
+                int inventoryID = user.inventory.InventoryID;
+                Inventory inventory = context.Inventories.Find(inventoryID);
+                int boodschapLijstID = user.boodschapLijst.BoodschapLijstID;
+                BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapLijstID);
+
+                inventory.InventoryIngredients.Add(inventoryIngredient);
+                //context.Entry(inventory.InventoryIngredients).State = EntityState.Modified;
+
+                boodschapLijst.BoodschapIngredients.Remove(boodschapIngredient);
+                //context.Entry(user.boodschapLijst).State = EntityState.Modified;
+                
+                context.SaveChanges();
+
+                return RedirectToAction("Index");
             }
-
-            BoodschapIngredient boodschapIngredient = db.BoodschapIngredients.Find(id);
-            if (boodschapIngredient == null)
-            {
-                return HttpNotFound();
-            }
-
-            InventoryIngredient inventoryIngredient = new InventoryIngredient();
-            inventoryIngredient.ingredient = boodschapIngredient.ingredient;
-            inventoryIngredient.Hoeveelheid = boodschapIngredient.Hoeveelheid;
-            inventoryIngredient.Eenheid = boodschapIngredient.Eenheid;
-
-            db.InventoryIngredients.Add(inventoryIngredient);
-            db.BoodschapIngredients.Remove(boodschapIngredient);
-            db.SaveChanges();
-
-            return RedirectToAction("Index");
         }
 
     }

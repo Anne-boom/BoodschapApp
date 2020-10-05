@@ -1,0 +1,75 @@
+﻿
+@model IngredientDB.RecipeIngredient
+@ViewBag.IngredientID
+
+@{
+    ViewBag.Title = "AddRecipeIngredient";
+}
+
+<h2>AddInventory</h2>
+@*@{Model.ingredient.ingredientID = ViewBag.IngredientID;}*@
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Ingredient</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ingredient.ingredientID, new { htmlAttributes = new { @class = "form-control" } })
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ingredient.ingredientID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.ingredient.ingredientID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.ingredient.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Model.ingredient.name
+                @Html.ValidationMessageFor(model => model.ingredient.ingredientID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ingredient.merk, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.ingredient.merk, new { htmlAttributes = new { @class = "form-control" } })
+                @Model.ingredient.merk
+                @Html.ValidationMessageFor(model => model.ingredient.merk, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hoeveelheid, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Hoeveelheid, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Hoeveelheid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Eenheid, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Eenheid, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Eenheid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Voeg toe" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

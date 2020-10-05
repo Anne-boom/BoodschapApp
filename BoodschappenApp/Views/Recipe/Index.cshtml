@@ -38,9 +38,9 @@
             </td>
             
             <td>
-                @*@Html.ActionLink("Hoeveelheid veranderen", "Edit", new { id = item.InventoryIngredientID }) |
-
-                @Html.ActionLink("Delete", "Delete", new { id = item.InventoryIngredientID }) |*@
+                @*@Html.ActionLink("Hoeveelheid veranderen", "Edit", new { id = item.InventoryIngredientID }) |*@
+                @Html.ActionLink("Voeg een ingredient aan recept", "AddIngredient", new { id = item.RecipeID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.RecipeID })
 
             </td>
 

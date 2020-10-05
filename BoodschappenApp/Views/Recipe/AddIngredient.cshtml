@@ -1,52 +1,61 @@
-﻿@model IEnumerable<IngredientDB.RecipeIngredient>
+﻿@model IEnumerable<IngredientDB.Ingredient>
 @{
     ViewBag.Title = "AddIngredient";
 }
 
-<h2>Dit zijn de RecipeIngredients</h2>
+<h2>AddIngredient</h2>
+
+<form method="post">
+    <input type="text" name="naam" />
+    <input type="submit" value="AddIngredient" />
+    @*<p>
+            Naam: <input type="text" asp-for="SearchString" />
+            <input type="submit" value="Search" />
+        </p>*@
+</form>
+
 
 <p>
-    @Html.ActionLink("Maak nieuw Recipe Ingredient aan", "CreateRecipeIngredient")
+    @Html.ActionLink("Create New", "Create", "Ingredients", null, null)
+
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ingredient.name)
+            @Html.DisplayNameFor(model => model.name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ingredient.merk)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Hoeveelheid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Eenheid)
+            @Html.DisplayNameFor(model => model.merk)
         </th>
         <th></th>
     </tr>
-
-    @foreach (var item in Model)
+@if (Model != null)
+{
+    foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.ingredient.name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ingredient.merk)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Hoeveelheid)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Eenheid)
-    </td>
-    <td>
-        @*@Html.ActionLink("Edit", "Edit", new { id = item.ingredientID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ingredientID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ingredientID })*@
-        @Html.ActionLink("AddIngredient", "AddIngredient", new {id = item.RecipeIngredientID})
-    </td>
-</tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.merk)
+            </td>
+            <td>
+                @Html.ActionLink("Voeg toe", "AddRecipeIngredient", new { id = item.ingredientID })
+
+            </td>
+        </tr>
     }
+}
 
 </table>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
