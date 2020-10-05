@@ -6,6 +6,14 @@
 
 <h2>Dit is in je koelkast</h2>
 
+<p1> Search ingredient:</p1>
+<form method="post">
+    <input type="text" name="input" />
+    <input type="submit" value="Search" />
+
+</form>
+
+
 <p>
     @Html.ActionLink("Voeg toe", "Toevoegen")
 </p>
@@ -25,30 +33,35 @@
         </th>
         <th></th>
     </tr>
+    @{
+        if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ingredient.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ingredient.merk)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hoeveelheid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Eenheid)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Hoeveelheid veranderen", "Edit", new { id = item.InventoryIngredientID }) |
 
-    @foreach (var item in Model)
-    {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.ingredient.name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ingredient.merk)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Hoeveelheid)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Eenheid)
-    </td>
-    <td>
-        @Html.ActionLink("Hoeveelheid veranderen", "Edit", new { id = item.InventoryIngredientID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.InventoryIngredientID }) |
 
-        @Html.ActionLink("Delete", "Delete", new { id = item.InventoryIngredientID }) |
-       
-    </td>
+                    </td>
 
-</tr>
+                </tr>
+            }
+        }
+
     }
 
 </table>

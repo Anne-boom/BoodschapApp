@@ -16,5 +16,10 @@ namespace IngredientDB
         public DbSet<BoodschapIngredient> BoodschapIngredients { get; set; }
         public DbSet<RecipeIngredient> TotalRecipeIngredients { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
+
+        public DbSet<Inventory> Inventories { get; set; }
+
+        public DbSet<BoodschapLijst> BoodschapLijsts { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

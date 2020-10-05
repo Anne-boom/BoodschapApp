@@ -17,28 +17,63 @@ namespace BoodschappenApp.Controllers
         // GET: Ingredients
         public ActionResult Index()
         {
-            return View(db.Ingredients.ToList());
+            using(DBingredient context = new DBingredient())
+            {
+                return View();
+            }
+            
+        }
+
+        [HttpPost]
+        public ActionResult Index(string input)
+        {
+            using (DBingredient context = new DBingredient())
+            {
+                List<Ingredient> lijstIngredients = context.Ingredients.ToList();
+
+                List<Ingredient> filterNaam = lijstIngredients.Where(e => e.name.Contains(input)).ToList();
+                List<Ingredient> filterMerk = lijstIngredients.Where(e => e.merk.Contains(input)).ToList();
+
+                foreach(Ingredient ingredient in filterMerk)
+                {
+                    int ID = ingredient.ingredientID;
+
+                    if(!filterNaam.Exists(x => x.ingredientID == ID))
+                    {
+                        filterNaam.Add(ingredient);
+                    }
+                }
+                return View(filterNaam);
+            }
+
         }
 
         // GET: Ingredients/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            using (DBingredient context = new DBingredient())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Ingredient ingredient = context.Ingredients.Find(id);
+                if (ingredient == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(ingredient);
             }
-            Ingredient ingredient = db.Ingredients.Find(id);
-            if (ingredient == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ingredient);
         }
 
         // GET: Ingredients/Create
         public ActionResult Create()
         {
-            return View();
+            using (DBingredient context = new DBingredient())
+            {
+                return View();
+            }
+                
         }
 
         // POST: Ingredients/Create
@@ -48,29 +83,36 @@ namespace BoodschappenApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ingredientID,name,merk")] Ingredient ingredient)
         {
-            if (ModelState.IsValid)
+            using (DBingredient context = new DBingredient())
             {
-                db.Ingredients.Add(ingredient);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    context.Ingredients.Add(ingredient);
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            return View(ingredient);
+                return View(ingredient);
+            }
         }
 
         // GET: Ingredients/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+
+            using (DBingredient context = new DBingredient())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Ingredient ingredient = context.Ingredients.Find(id);
+                if (ingredient == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(ingredient);
             }
-            Ingredient ingredient = db.Ingredients.Find(id);
-            if (ingredient == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ingredient);
         }
 
         // POST: Ingredients/Edit/5
@@ -80,28 +122,34 @@ namespace BoodschappenApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ingredientID,name,merk")] Ingredient ingredient)
         {
-            if (ModelState.IsValid)
+            using (DBingredient context = new DBingredient())
             {
-                db.Entry(ingredient).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    context.Entry(ingredient).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(ingredient);
             }
-            return View(ingredient);
         }
 
         // GET: Ingredients/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            using (DBingredient context = new DBingredient())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Ingredient ingredient = context.Ingredients.Find(id);
+                if (ingredient == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(ingredient);
             }
-            Ingredient ingredient = db.Ingredients.Find(id);
-            if (ingredient == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ingredient);
         }
 
         // POST: Ingredients/Delete/5
@@ -109,19 +157,22 @@ namespace BoodschappenApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Ingredient ingredient = db.Ingredients.Find(id);
-            db.Ingredients.Remove(ingredient);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            using (DBingredient context = new DBingredient())
+            {
+                Ingredient ingredient = context.Ingredients.Find(id);
+                context.Ingredients.Remove(ingredient);
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

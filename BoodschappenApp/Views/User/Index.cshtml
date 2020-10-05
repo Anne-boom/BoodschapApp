@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Welke User?</h2>
+
+@Html.ActionLink("Create", "Create")
+
+
+<form method="post">
+    <input type="text" name="id" />
+    <input type="submit" value="Zoek" />
+    
+</form>
+
+<p>
+    @ViewBag.Message
+</p>

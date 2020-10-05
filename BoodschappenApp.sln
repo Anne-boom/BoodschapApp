@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoodschappenApp", "Boodscha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IngredientDB", "IngredientDB\IngredientDB.csproj", "{1B08B927-650C-4EC3-97EC-E48630972326}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoodschappenAPI", "BoodschappenAPI\BoodschappenAPI.csproj", "{B4DBFD47-B669-40BC-9663-90B8D6D4083C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1B08B927-650C-4EC3-97EC-E48630972326}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B08B927-650C-4EC3-97EC-E48630972326}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B08B927-650C-4EC3-97EC-E48630972326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4DBFD47-B669-40BC-9663-90B8D6D4083C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4DBFD47-B669-40BC-9663-90B8D6D4083C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4DBFD47-B669-40BC-9663-90B8D6D4083C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4DBFD47-B669-40BC-9663-90B8D6D4083C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
