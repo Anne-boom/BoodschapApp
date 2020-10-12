@@ -1,24 +1,13 @@
 ﻿@model IEnumerable<IngredientDB.BoodschapIngredient>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Print";
 }
 
-<h2>BoodschappenLijst</h2>
+
+<h2>Wil je dit overzetten naar een bestand die je kan uitprinten?</h2>
 
 
-<p1> Search ingredient:</p1>
-<form method="post">
-    <input type="text" name="input" />
-    <input type="submit" value="Search" />
 
-</form>
-
-<p>
-    @Html.ActionLink("Voeg toe", "Toevoegen")
-    |
-    @Html.ActionLink("print bestand", "Print")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -52,12 +41,19 @@
                 @Html.DisplayFor(modelItem => item.Eenheid)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.BoodschapIngredientID }) |
-                @Html.ActionLink("Gekocht", "Gekocht", new { id = item.BoodschapIngredientID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.BoodschapIngredientID })
             </td>
         </tr>
     }
 
 </table>
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <p>
+
+        <button type="submit" value="Print" class="btn btn-default">print</button>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

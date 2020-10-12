@@ -55,6 +55,7 @@
                         @Html.ActionLink("Hoeveelheid veranderen", "Edit", new { id = item.InventoryIngredientID }) |
 
                         @Html.ActionLink("Delete", "Delete", new { id = item.InventoryIngredientID }) |
+                        @Html.ActionLink("Boodschappenlijst toevoegen", "AddInventory", "Boodschap", new { id = item.ingredient.ingredientID }, null)
 
                     </td>
 
