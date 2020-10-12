@@ -89,7 +89,7 @@
                         @if (ViewBag.user == true)
                         {
                             @Html.ActionLink("Hoeveelheid veranderen", "EditAmount", new { id = item.RecipeIngredientID }); 
-                            @*@Html.ActionLink("Delete", "EditDelete", new { id = item.RecipeIngredientID })*@
+                            @Html.ActionLink("| Delete", "EditDelete", new { id = item.RecipeIngredientID })
 
 
                         }

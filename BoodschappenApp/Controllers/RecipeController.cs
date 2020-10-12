@@ -307,6 +307,9 @@ namespace BoodschappenApp.Controllers
                 ViewBag.User = correctUser;
                 recipe.RecipeIngredients = lijst;
                 ViewBag.Lijst = lijst;
+
+                TempData["RecipeID"] = recipe.RecipeID;
+
                 return View(recipe);
             }
 
@@ -448,7 +451,24 @@ namespace BoodschappenApp.Controllers
         {
             using (DBingredient context = new DBingredient())
             {
+                int? recipeIDInput = (int)TempData["RecipeID"];
+
+                if ( recipeIDInput == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Recipe recipe = context.Recipes.Find(recipeIDInput);
+
+                if(recipe == null)
+                {
+                    return HttpNotFound();
+                }
+
                 RecipeIngredient ingredient = context.TotalRecipeIngredients.Find(id);
+                recipe.RecipeIngredients.Remove(ingredient);
+                context.Entry(recipe).State = EntityState.Modified;
+                context.SaveChanges();
+
                 context.TotalRecipeIngredients.Remove(ingredient);
                 context.SaveChanges();
                 return RedirectToAction("Index");
