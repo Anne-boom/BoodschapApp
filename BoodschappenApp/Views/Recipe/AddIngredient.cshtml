@@ -4,7 +4,12 @@
 }
 
 <h2>AddIngredient</h2>
+@if(ViewBag.User == false)
+{
+    <p1> Je kan geen ingredienten toevoegen van iemand anders recept</p1>
+}
 
+@if(ViewBag.User == true){
 <form method="post">
     <input type="text" name="naam" />
     <input type="submit" value="AddIngredient" />
@@ -50,7 +55,7 @@
 
 </table>
 
-
+}
 
 <div>
     @Html.ActionLink("Back to List", "Index")

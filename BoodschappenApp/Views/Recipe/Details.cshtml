@@ -1,0 +1,112 @@
+﻿@model IngredientDB.Recipe
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+
+<div>
+    <h4>Recipe</h4>
+    <hr />
+    @if (ViewBag.user == true)
+    {
+        @Html.ActionLink("Recept veranderen", "EditRecipe", new { id = Model.RecipeID })
+    }
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+
+        <dt>
+            Recipe created by:
+            @*@Html.DisplayNameFor(model => model.user.inlognaam)*@
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.inlognaam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Calorien)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Calorien)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Beschrijving)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Beschrijving)
+        </dd>
+
+
+    </dl>
+</div>
+
+<p1> De ingredienten :</p1>
+<table class="table">
+    <tr>
+        <th>
+            Naam
+        </th>
+        <th>
+            Merk
+        </th>
+        <th>
+            Hoeveelheid
+        </th>
+        <th>
+            Eenheid
+        </th>
+        <th></th>
+    </tr>
+    @{
+        if (Model != null)
+        {
+            foreach (var item in Model.RecipeIngredients)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ingredient.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ingredient.merk)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hoeveelheid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Eenheid)
+                    </td>
+                    <td>
+                        @if (ViewBag.user == true)
+                        {
+                            @Html.ActionLink("Hoeveelheid veranderen", "EditAmount", new { id = item.RecipeIngredientID }); 
+                            @*@Html.ActionLink("Delete", "EditDelete", new { id = item.RecipeIngredientID })*@
+
+
+                        }
+
+
+
+
+                    </td>
+
+                </tr>
+            }
+        }
+
+    }
+
+</table>
+
+
+
+

@@ -1,0 +1,65 @@
+﻿@model IngredientDB.Recipe
+    @*@using IngredientDB.RecipeIngredient*@
+@{
+    ViewBag.Title = "EditRecipe";
+}
+
+<h2>EditRecipe</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Ingredient</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.RecipeID)
+    @Html.HiddenFor(model => model.user.UserID, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.HiddenFor(model => model.RecipeIngredients, new { htmlAttributes = new { @class = "form-control" } })
+    @{
+
+    }
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Naam, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Naam, new { htmlAttributes = new { @class = "form-control" } })
+
+
+
+            @Html.ValidationMessageFor(model => model.Naam, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Beschrijving, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Beschrijving, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Beschrijving, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Calorien, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Calorien, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Calorien, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <button type="submit" value="Save" class="btn btn-default">Opslaan</button>
+
+
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
