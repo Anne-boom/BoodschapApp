@@ -18,5 +18,9 @@ namespace IngredientDB
         public string Beschrijving { get; set; }
         public double Calorien { get; set; }
 
+        virtual public User user { get; set; }
+
+      
+
     }
 }

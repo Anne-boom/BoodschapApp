@@ -16,5 +16,6 @@ namespace IngredientDB
         
         public double Hoeveelheid { get; set; }
         public string Eenheid { get; set; }
+        
     }
 }

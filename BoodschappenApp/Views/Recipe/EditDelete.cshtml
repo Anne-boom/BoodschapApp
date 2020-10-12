@@ -1,0 +1,42 @@
+﻿@model IngredientDB.RecipeIngredient
+@{
+    ViewBag.Title = "EditDelete";
+}
+
+<
+
+
+
+
+<h2>Weet je zeker dat je dit wil verwijderen?</h2>
+
+<table class="table-bordered">
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.ingredient.name)</td>
+        <td>@Html.DisplayFor(model => model.ingredient.name)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.ingredient.merk)</td>
+        <td>@Html.DisplayFor(model => model.ingredient.merk)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.Hoeveelheid)</td>
+        <td>@Html.DisplayFor(model => model.Hoeveelheid)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.Eenheid)</td>
+        <td>@Html.DisplayFor(model => model.Eenheid)</td>
+    </tr>
+</table>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <p>
+
+        <button type="submit" value="EditDelete" class="btn btn-default">delete</button>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

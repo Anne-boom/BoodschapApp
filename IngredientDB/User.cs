@@ -17,5 +17,11 @@ namespace IngredientDB
        virtual public Inventory inventory { get; set; }
 
         virtual public BoodschapLijst boodschapLijst { get; set; }
+
+        //public string geslacht { get; set; }
+        //public double leeftijd { get; set; }
+        //public double gewicht { get; set; }
+        //public double lengte { get; set; }
+
     }
 }
