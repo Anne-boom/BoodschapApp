@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace BoodschappenApp.Controllers
 {
@@ -46,6 +48,7 @@ namespace BoodschappenApp.Controllers
             }
 
         }
+
 
         [HttpPost]
         public ActionResult Index(string input)
@@ -105,7 +108,7 @@ namespace BoodschappenApp.Controllers
             {
                 return View();
             }
-                
+
         }
 
         [HttpPost]
@@ -157,7 +160,7 @@ namespace BoodschappenApp.Controllers
         // POST: Ingredients/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-       
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -302,12 +305,88 @@ namespace BoodschappenApp.Controllers
 
                 boodschapLijst.BoodschapIngredients.Remove(boodschapIngredient);
                 //context.Entry(user.boodschapLijst).State = EntityState.Modified;
-                
+
                 context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
         }
 
+        public ActionResult Print()
+        {
+            User user = (User)Session["user"];
+
+            using (DBingredient context = new DBingredient())
+            {
+                int boodschapLijstID = user.boodschapLijst.BoodschapLijstID;
+                BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapLijstID);
+                //List<BoodschapIngredient> lijst = context.BoodschapIngredients.ToList();
+
+                if (boodschapLijst != null)
+                {
+
+                    foreach (BoodschapIngredient boodschapIngredient in boodschapLijst.BoodschapIngredients)
+                    {
+                        int ingredientID = boodschapIngredient.ingredient.ingredientID;
+                        Ingredient ig = context.Ingredients.Find(ingredientID);
+                        boodschapIngredient.ingredient = ig;
+                    }
+                    return View(boodschapLijst.BoodschapIngredients);
+                }
+
+                return View();
+            }
+
+        }
+
+        // POST: Ingredients/Delete/5
+        [HttpPost, ActionName("Print")]
+        [ValidateAntiForgeryToken]
+        public ActionResult PrintConfirmed()
+        {
+            using (DBingredient context = new DBingredient())
+            {
+                User user = (User)Session["user"];
+
+                int boodschapLijstID = user.boodschapLijst.BoodschapLijstID;
+                BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapLijstID);
+                
+                string filePath = @"C:\Users\Public\BoodschappenLijst.txt";
+
+                 
+                string[] lijnen = new string[boodschapLijst.BoodschapIngredients.Count + 1];
+                int arraycount = 0;
+
+               
+                if (boodschapLijst != null)
+                {
+                    lijnen[0] = "Naam Merk Hoeveelheid Eenheid";
+                     
+
+                    foreach (BoodschapIngredient boodschapIngredient in boodschapLijst.BoodschapIngredients)
+                    {
+                        arraycount = arraycount+1;
+                        lijnen[arraycount] = $"{boodschapIngredient.ingredient.name} {boodschapIngredient.ingredient.merk} {boodschapIngredient.Hoeveelheid} {boodschapIngredient.Eenheid}";
+                        //int ingredientID = boodschapIngredient.ingredient.ingredientID;
+                        //Ingredient ig = context.Ingredients.Find(ingredientID);
+                        //boodschapIngredient.ingredient = ig;
+                    }
+
+                    try
+                    {
+                        System.IO.File.WriteAllLines(filePath, lijnen);
+                    }
+                    catch 
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    
+                    return RedirectToAction("Index");
+                    
+                }
+
+                return View();
+            }
+        }
     }
 }
