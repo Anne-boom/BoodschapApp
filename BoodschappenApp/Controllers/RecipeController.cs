@@ -474,5 +474,46 @@ namespace BoodschappenApp.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        public ActionResult checkInventory(int? id)
+        {
+            using (DBingredient context = new DBingredient())
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Recipe recipe = context.Recipes.Find(id);
+                if(recipe == null)
+                {
+                    return HttpNotFound();
+                }
+                List<RecipeIngredient> lijst = new List<RecipeIngredient>();
+                List<InventoryIngredient> lijstInventory = new List<InventoryIngredient>();
+
+                foreach (RecipeIngredient recipeIngredient in recipe.RecipeIngredients)
+                {
+                    int recipeIngredientID = recipeIngredient.RecipeIngredientID;
+                    RecipeIngredient recipeIngredientLijst = context.TotalRecipeIngredients.Find(recipeIngredientID);
+                    int ingredientID = recipeIngredientLijst.ingredient.ingredientID;
+                    Ingredient ingredientLijst = context.Ingredients.Find(ingredientID);
+                    recipeIngredientLijst.ingredient = ingredientLijst;
+                    lijst.Add(recipeIngredientLijst);
+
+                    List<InventoryIngredient> queryLijst = (from inventoryIngredient in context.InventoryIngredients
+                                     where inventoryIngredient.ingredient.ingredientID.Equals(ingredientID)
+                                     select inventoryIngredient).ToList();
+                    foreach(InventoryIngredient ingredient in queryLijst)
+                    {
+                        lijstInventory.Add(ingredient);
+                    }
+                }
+                ViewData["inventoryLijst"] = lijstInventory;
+                ViewData["recipeLijst"] = lijst;
+
+                return View();
+                    }
+            
+        }
     }
 }
