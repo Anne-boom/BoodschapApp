@@ -206,6 +206,7 @@
     <Content Include="Views\Recipe\EditAmount.cshtml" />
     <Content Include="Views\Recipe\EditDelete.cshtml" />
     <Content Include="Views\Boodschap\Print.cshtml" />
+    <Content Include="Views\Recipe\checkInventory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

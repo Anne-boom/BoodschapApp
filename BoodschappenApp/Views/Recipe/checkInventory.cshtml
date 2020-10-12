@@ -1,0 +1,107 @@
+﻿@{
+    IEnumerable<IngredientDB.RecipeIngredient> recipeIngredients = ViewData["recipeLijst"] as IEnumerable<IngredientDB.RecipeIngredient>;
+    IEnumerable<IngredientDB.InventoryIngredient> inventoryIngredients = ViewData["inventoryLijst"] as IEnumerable<IngredientDB.InventoryIngredient>;
+}
+@{
+    ViewBag.Title = "checkInventory";
+}
+
+<h2>checkInventory</h2>
+
+<p1> De Ingredienten uit het recept :</p1>
+<table class="table">
+    <tr>
+        <th>
+            Naam
+        </th>
+        <th>
+            Merk
+        </th>
+        <th>
+            Hoeveelheid
+        </th>
+        <th>
+            Eenheid
+        </th>
+        <th></th>
+    </tr>
+    @{
+
+        foreach (IngredientDB.RecipeIngredient recipeIngredient in recipeIngredients)
+        {
+            <tr>
+                <td>
+                    @recipeIngredient.ingredient.name
+                </td>
+                <td>
+                    @recipeIngredient.ingredient.merk
+                </td>
+                <td>
+                    @recipeIngredient.Hoeveelheid
+                </td>
+                <td>
+                    @recipeIngredient.Eenheid
+                </td>
+                <td>
+
+                    @*@Html.ActionLink("Hoeveelheid veranderen", "EditAmount", new { id = recipeIngredient.RecipeIngredientID });*@
+
+
+                </td>
+
+            </tr>
+
+        }
+
+    }
+
+</table>
+
+<p1> De Ingredienten die overeenkomen in inventory :</p1>
+<table class="table">
+    <tr>
+        <th>
+            Naam
+        </th>
+        <th>
+            Merk
+        </th>
+        <th>
+            Hoeveelheid
+        </th>
+        <th>
+            Eenheid
+        </th>
+        <th></th>
+    </tr>
+    @{
+
+        foreach (IngredientDB.InventoryIngredient inventoryIngredient in inventoryIngredients)
+        {
+            <tr>
+                <td>
+                    @inventoryIngredient.ingredient.name
+                </td>
+                <td>
+                    @inventoryIngredient.ingredient.merk
+                </td>
+                <td>
+                    @inventoryIngredient.Hoeveelheid
+                </td>
+                <td>
+                    @inventoryIngredient.Eenheid
+                </td>
+                <td>
+
+                    @Html.ActionLink("BoodschappenLijst toevoegen", "AddInventory", "Boodschap", new { id = inventoryIngredient.ingredient.ingredientID }, null);
+
+
+                </td>
+
+            </tr>
+
+        }
+
+    }
+
+</table>
