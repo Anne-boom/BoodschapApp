@@ -78,8 +78,17 @@ namespace BoodschappenApp.Controllers
         {
             using (DBingredient context = new DBingredient())
             {
+                string message = "";
                 if (ModelState.IsValid)
                 {
+                    List<User> UsersLijst = context.Users.ToList<User>();
+                    if(UsersLijst.Where(x => x.inlognaam == user.inlognaam).Any())
+                    {
+                        message = "Deze inlognaam wordt al gebruikt.";
+                        ViewBag.Message = message;
+                        return View(user);
+                    }
+
                     Inventory inventory = new Inventory();
                     BoodschapLijst boodschapLijst = new BoodschapLijst();
                     user.inventory = inventory;
@@ -89,6 +98,7 @@ namespace BoodschappenApp.Controllers
                     return RedirectToAction("Index");
                 }
 
+                
                 return View(user);
             }
         }
