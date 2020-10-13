@@ -312,81 +312,81 @@ namespace BoodschappenApp.Controllers
             }
         }
 
-        public ActionResult Print()
-        {
-            User user = (User)Session["user"];
+        //public ActionResult Print()
+        //{
+        //    User user = (User)Session["user"];
 
-            using (DBingredient context = new DBingredient())
-            {
-                int boodschapLijstID = user.boodschapLijst.BoodschapLijstID;
-                BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapLijstID);
-                //List<BoodschapIngredient> lijst = context.BoodschapIngredients.ToList();
+        //    using (DBingredient context = new DBingredient())
+        //    {
+        //        int boodschapLijstID = user.boodschapLijst.BoodschapLijstID;
+        //        BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapLijstID);
+        //        //List<BoodschapIngredient> lijst = context.BoodschapIngredients.ToList();
 
-                if (boodschapLijst != null)
-                {
+        //        if (boodschapLijst != null)
+        //        {
 
-                    foreach (BoodschapIngredient boodschapIngredient in boodschapLijst.BoodschapIngredients)
-                    {
-                        int ingredientID = boodschapIngredient.ingredient.ingredientID;
-                        Ingredient ig = context.Ingredients.Find(ingredientID);
-                        boodschapIngredient.ingredient = ig;
-                    }
-                    return View(boodschapLijst.BoodschapIngredients);
-                }
+        //            foreach (BoodschapIngredient boodschapIngredient in boodschapLijst.BoodschapIngredients)
+        //            {
+        //                int ingredientID = boodschapIngredient.ingredient.ingredientID;
+        //                Ingredient ig = context.Ingredients.Find(ingredientID);
+        //                boodschapIngredient.ingredient = ig;
+        //            }
+        //            return View(boodschapLijst.BoodschapIngredients);
+        //        }
 
-                return View();
-            }
+        //        return View();
+        //    }
 
-        }
+        //}
 
-        // POST: Ingredients/Delete/5
-        [HttpPost, ActionName("Print")]
-        [ValidateAntiForgeryToken]
-        public ActionResult PrintConfirmed()
-        {
-            using (DBingredient context = new DBingredient())
-            {
-                User user = (User)Session["user"];
+        //// POST: Ingredients/Delete/5
+        //[HttpPost, ActionName("Print")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult PrintConfirmed()
+        //{
+        //    using (DBingredient context = new DBingredient())
+        //    {
+        //        User user = (User)Session["user"];
 
-                int boodschapLijstID = user.boodschapLijst.BoodschapLijstID;
-                BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapLijstID);
+        //        int boodschapLijstID = user.boodschapLijst.BoodschapLijstID;
+        //        BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapLijstID);
                 
-                string filePath = @"C:\Users\Public\BoodschappenLijst.txt";
+        //        string filePath = @"C:\Users\Public\BoodschappenLijst.txt";
 
                  
-                string[] lijnen = new string[boodschapLijst.BoodschapIngredients.Count + 1];
-                int arraycount = 0;
+        //        string[] lijnen = new string[boodschapLijst.BoodschapIngredients.Count + 1];
+        //        int arraycount = 0;
 
                
-                if (boodschapLijst != null)
-                {
-                    lijnen[0] = "Naam Merk Hoeveelheid Eenheid";
+        //        if (boodschapLijst != null)
+        //        {
+        //            lijnen[0] = "Naam Merk Hoeveelheid Eenheid";
                      
 
-                    foreach (BoodschapIngredient boodschapIngredient in boodschapLijst.BoodschapIngredients)
-                    {
-                        arraycount = arraycount+1;
-                        lijnen[arraycount] = $"{boodschapIngredient.ingredient.name} {boodschapIngredient.ingredient.merk} {boodschapIngredient.Hoeveelheid} {boodschapIngredient.Eenheid}";
-                        //int ingredientID = boodschapIngredient.ingredient.ingredientID;
-                        //Ingredient ig = context.Ingredients.Find(ingredientID);
-                        //boodschapIngredient.ingredient = ig;
-                    }
+        //            foreach (BoodschapIngredient boodschapIngredient in boodschapLijst.BoodschapIngredients)
+        //            {
+        //                arraycount = arraycount+1;
+        //                lijnen[arraycount] = $"{boodschapIngredient.ingredient.name} {boodschapIngredient.ingredient.merk} {boodschapIngredient.Hoeveelheid} {boodschapIngredient.Eenheid}";
+        //                //int ingredientID = boodschapIngredient.ingredient.ingredientID;
+        //                //Ingredient ig = context.Ingredients.Find(ingredientID);
+        //                //boodschapIngredient.ingredient = ig;
+        //            }
 
-                    try
-                    {
-                        System.IO.File.WriteAllLines(filePath, lijnen);
-                    }
-                    catch 
-                    {
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                    }
+        //            try
+        //            {
+        //                System.IO.File.WriteAllLines(filePath, lijnen);
+        //            }
+        //            catch 
+        //            {
+        //                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //            }
                     
-                    return RedirectToAction("Index");
+        //            return RedirectToAction("Index");
                     
-                }
+        //        }
 
-                return View();
-            }
-        }
+        //        return View();
+        //    }
+        //}
     }
 }
