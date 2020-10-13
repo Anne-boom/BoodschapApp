@@ -18,7 +18,7 @@ namespace BoodschappenApp
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer<DBingredient>(new DropCreateDatabaseIfModelChanges<DBingredient>());
+            //Database.SetInitializer<DBingredient>(new DropCreateDatabaseIfModelChanges<DBingredient>());
         }
     }
 }

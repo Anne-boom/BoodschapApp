@@ -20,43 +20,39 @@ namespace BoodschappenApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string id)
+        [ValidateAntiForgeryToken]
+        public ActionResult Index([Bind(Include = "inlognaam, wachtwoord")] User userInput)
         {
             using (DBingredient context = new DBingredient())
             {
-                int ID;
                 string message = "";
-                bool isParsable = Int32.TryParse(id, out ID);
 
-                if (isParsable == false)
+                if (userInput == null)
                 {
-                    message = "Invalid number";
-
+                    message = "Verkeerde input";
                 }
-                else 
+
+                //User user = new User();
+                List<User> UsersLijst = context.Users.ToList<User>();
+                var user = UsersLijst.FirstOrDefault(x => x.inlognaam == userInput.inlognaam && x.wachtwoord == userInput.wachtwoord);
+
+                if(user!= null)
                 {
-                    ID = Int32.Parse(id);
-                    user = context.Users.Find(ID);
 
-                    if (user == null)
-                    {
-                        message = "user is not in the database";
-                    }
-                    else
-                    {
-                        int inventoryID = user.inventory.InventoryID;
-                        Inventory inventory = context.Inventories.Find(inventoryID);
-                        user.inventory = inventory;
-                        int boodschapID = user.boodschapLijst.BoodschapLijstID;
-                        BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapID);
-                        user.boodschapLijst = boodschapLijst;
-                        Session["user"] = user;
-                        message = $"Welkom {user.inlognaam}";
-                    }
-
-
-
+                    int inventoryID = user.inventory.InventoryID;
+                    Inventory inventory = context.Inventories.Find(inventoryID);
+                    user.inventory = inventory;
+                    int boodschapID = user.boodschapLijst.BoodschapLijstID;
+                    BoodschapLijst boodschapLijst = context.BoodschapLijsts.Find(boodschapID);
+                    user.boodschapLijst = boodschapLijst;
+                    Session["user"] = user;
+                    message = $"Welkom {user.inlognaam}";
                 }
+                else
+                {
+                    message = "user is not in the database";
+                }
+
                 ViewBag.Message = message;
                 return View();
             }
