@@ -78,20 +78,9 @@ namespace BoodschappenApp.Controllers
 
                     }
 
-                    List<BoodschapIngredient> filterNaam = boodschapLijst.BoodschapIngredients.Where(e => e.ingredient.name.Contains(input)).ToList();
+                    List<BoodschapIngredient> filterNaam = boodschapLijst.BoodschapIngredients.Where(e => e.ingredient.name.Contains(input) || e.ingredient.merk != null && e.ingredient.merk.Contains(input)).ToList();
 
-                    List<BoodschapIngredient> filterMerk = boodschapLijst.BoodschapIngredients.Where(e => e.ingredient.merk.Contains(input)).ToList();
-
-                    foreach (BoodschapIngredient boodschapIngredient2 in filterMerk)
-                    {
-                        int ID = boodschapIngredient2.BoodschapIngredientID;
-
-
-                        if (!filterNaam.Exists(x => x.BoodschapIngredientID == ID))
-                        {
-                            filterNaam.Add(boodschapIngredient2);
-                        }
-                    }
+                    
 
                     return View(filterNaam);
                 }
@@ -118,18 +107,7 @@ namespace BoodschappenApp.Controllers
             {
                 List<Ingredient> lijstIngredients = context.Ingredients.ToList();
 
-                List<Ingredient> filterNaam = lijstIngredients.Where(e => e.name.Contains(input)).ToList();
-                List<Ingredient> filterMerk = lijstIngredients.Where(e => e.merk.Contains(input)).ToList();
-
-                foreach (Ingredient ingredient in filterMerk)
-                {
-                    int ID = ingredient.ingredientID;
-
-                    if (!filterNaam.Exists(x => x.ingredientID == ID))
-                    {
-                        filterNaam.Add(ingredient);
-                    }
-                }
+                List<Ingredient> filterNaam = lijstIngredients.Where(e => e.name.Contains(input) || e.merk != null && e.merk.Contains(input)).ToList();
                 return View(filterNaam);
             }
 
