@@ -239,12 +239,7 @@ namespace BoodschappenApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //User user = (User)Session["user"];
-                    //int UserID = user.UserID;
-                    //User indexUser = context.Users.Find(UserID);
-                    //int inventoryID = indexUser.inventory.InventoryID;
-
-                    //Inventory inventory = context.Inventories.Find(inventoryID);
+                   
                     Ingredient ig = context.Ingredients.Find(recipeIngredient.ingredient.ingredientID);
                     recipeIngredient.ingredient = ig;
                     context.TotalRecipeIngredients.Add(recipeIngredient);
