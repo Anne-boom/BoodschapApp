@@ -11,6 +11,7 @@ namespace IngredientDB
     {
         [Key]
         public int UserID { get; set; }
+       
         public string inlognaam { get; set; }
         public string wachtwoord { get; set; }
 

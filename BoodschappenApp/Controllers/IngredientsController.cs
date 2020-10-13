@@ -31,18 +31,18 @@ namespace BoodschappenApp.Controllers
             {
                 List<Ingredient> lijstIngredients = context.Ingredients.ToList();
 
-                List<Ingredient> filterNaam = lijstIngredients.Where(e => e.name.Contains(input)).ToList();
-                List<Ingredient> filterMerk = lijstIngredients.Where(e => e.merk.Contains(input)).ToList();
+                List<Ingredient> filterNaam = lijstIngredients.Where(e => e.name.Contains(input) || e.merk != null && e.merk.Contains(input) ).ToList();
+                //List<Ingredient> filterMerk = lijstIngredients.Where().ToList();
 
-                foreach(Ingredient ingredient in filterMerk)
-                {
-                    int ID = ingredient.ingredientID;
+                //foreach(Ingredient ingredient in filterMerk)
+                //{
+                //    int ID = ingredient.ingredientID;
 
-                    if(!filterNaam.Exists(x => x.ingredientID == ID))
-                    {
-                        filterNaam.Add(ingredient);
-                    }
-                }
+                //    if(!filterNaam.Exists(x => x.ingredientID == ID))
+                //    {
+                //        filterNaam.Add(ingredient);
+                //    }
+                //}
                 return View(filterNaam);
             }
 
