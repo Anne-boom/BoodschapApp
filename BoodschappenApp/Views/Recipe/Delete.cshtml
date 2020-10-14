@@ -7,7 +7,7 @@
 
 <table class="table-bordered">
     <tr>
-        <td>@Html.DisplayNameFor(model => model.Naam)</td>
+        <td>naam</td>
         <td>@Html.DisplayFor(model => model.Naam)</td>
     </tr>
     <tr>
@@ -29,10 +29,10 @@
     <p>
         @if(ViewBag.user == true)
         {
-        <button type="submit" value="Delete" class="btn btn-default">delete</button>
+        <button type="submit" value="Verwijder" class="btn btn-default">delete</button>
         }
         
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Terug naar Lijst", "Index")
     </p>
 }
 

@@ -5,12 +5,12 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Ingredïenten</h2>
 
 <p1> Search ingredient:</p1>
 <form method="post">
     <input type="text" name="input" />
-    <input type="submit" value="Search" />
+    <input type="submit" value="Zoek" />
 
 </form>
 
@@ -20,7 +20,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            naam
         </th>
         <th>
             @Html.DisplayNameFor(model => model.merk)
@@ -42,9 +42,9 @@
                         @Html.DisplayFor(modelItem => item.merk)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ingredientID }) |
+                        @Html.ActionLink("Verander", "Edit", new { id = item.ingredientID }) |
                         @Html.ActionLink("Details", "Details", new { id = item.ingredientID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ingredientID })
+                        @Html.ActionLink("Verwijder", "Delete", new { id = item.ingredientID })
                     </td>
                 </tr>
             }

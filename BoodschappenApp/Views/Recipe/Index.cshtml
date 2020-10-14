@@ -7,7 +7,7 @@
 <h2>Dit zijn de recepten die zijn opgeslagen</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Maak Nieuw", "Create")
 </p>
 <table class="table">
     <tr>
@@ -42,7 +42,7 @@
 
                
                     @Html.ActionLink("Voeg een ingredient aan recept", "AddIngredient", new { id = item.RecipeID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.RecipeID }) |
+                    @Html.ActionLink("Verwijder", "Delete", new { id = item.RecipeID }) |
                 
                 @Html.ActionLink("Details", "Details", new { id = item.RecipeID }) 
             </td>

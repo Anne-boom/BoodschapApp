@@ -9,19 +9,20 @@
 <p1> Search ingredient:</p1>
 <form method="post">
     <input type="text" name="input" />
-    <input type="submit" value="Search" />
+    <input type="submit" value="Zoek" />
 
 </form>
 
 
 <p>
-    @Html.ActionLink("Create New", "Create", "Ingredients", null, null)
+    @Html.ActionLink("Maak Nieuw aan", "Create", "Ingredients", null, null)
 
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            naam
+            @*@Html.DisplayNameFor(model => model.name)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.merk)

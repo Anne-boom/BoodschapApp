@@ -10,7 +10,7 @@
 <p1> Search ingredient:</p1>
 <form method="post">
     <input type="text" name="input" />
-    <input type="submit" value="Search" />
+    <input type="submit" value="Zoek" />
 
 </form>
 
@@ -22,7 +22,8 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ingredient.name)
+            naam
+            @*@Html.DisplayNameFor(model => model.ingredient.name)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ingredient.merk)
@@ -52,9 +53,9 @@
                 @Html.DisplayFor(modelItem => item.Eenheid)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.BoodschapIngredientID }) |
+                @Html.ActionLink("Verander hoeveelheid", "Edit", new { id = item.BoodschapIngredientID }) |
                 @Html.ActionLink("Gekocht", "Gekocht", new { id = item.BoodschapIngredientID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.BoodschapIngredientID })
+                @Html.ActionLink("Verwijder", "Delete", new { id = item.BoodschapIngredientID })
             </td>
         </tr>
     }
