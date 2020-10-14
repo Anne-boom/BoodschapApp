@@ -3,7 +3,7 @@
     ViewBag.Title = "AddIngredient";
 }
 
-<h2>AddIngredient</h2>
+<h2>Recept Ingredïent</h2>
 @if(ViewBag.User == false)
 {
     <p1> Je kan geen ingredienten toevoegen van iemand anders recept</p1>
@@ -12,7 +12,7 @@
 @if(ViewBag.User == true){
 <form method="post">
     <input type="text" name="naam" />
-    <input type="submit" value="AddIngredient" />
+    <input type="submit" value="Zoek" />
     @*<p>
             Naam: <input type="text" asp-for="SearchString" />
             <input type="submit" value="Search" />
@@ -21,13 +21,13 @@
 
 
 <p>
-    @Html.ActionLink("Create New", "Create", "Ingredients", null, null)
+    @Html.ActionLink("Maak Nieuw", "Create", "Ingredients", null, null)
 
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            Naam
         </th>
         <th>
             @Html.DisplayNameFor(model => model.merk)
@@ -58,7 +58,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Terug naar Lijst", "Index")
 </div>
 
 @section Scripts {
