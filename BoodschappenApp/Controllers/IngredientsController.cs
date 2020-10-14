@@ -7,18 +7,21 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using IngredientDB;
+using PagedList;
 
 namespace BoodschappenApp.Controllers
 {
     public class IngredientsController : Controller
     {
-        private DBingredient db = new DBingredient();
+        //private DBingredient db = new DBingredient();
 
         // GET: Ingredients
         public ActionResult Index()
         {
             using(DBingredient context = new DBingredient())
             {
+                
+
                 return View();
             }
             

@@ -84,3 +84,5 @@ C:\Users\anne\source\repos\BoodschappenApp\BoodschappenApp\bin\IngredientDB.dll.
 C:\Users\anne\source\repos\BoodschappenApp\BoodschappenApp\bin\EntityFramework.xml
 C:\Users\anne\source\repos\BoodschappenApp\BoodschappenApp\bin\EntityFramework.SqlServer.dll
 C:\Users\anne\source\repos\BoodschappenApp\BoodschappenApp\bin\EntityFramework.SqlServer.xml
+C:\Users\anne\source\repos\BoodschappenApp\BoodschappenApp\bin\PagedList.dll
+C:\Users\anne\source\repos\BoodschappenApp\BoodschappenApp\bin\PagedList.xml
