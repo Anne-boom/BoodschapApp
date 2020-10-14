@@ -75,7 +75,8 @@ namespace BoodschappenApp.Controllers
 
                     }
 
-                    List<InventoryIngredient> filter = inventory.InventoryIngredients.Where(e => e.ingredient.name.Contains(input) || e.ingredient.merk != null && e.ingredient.merk.Contains(input)).ToList();
+                    List<InventoryIngredient> filter = inventory.InventoryIngredients.Where(e => e.ingredient.name.Contains(input) 
+                    || e.ingredient.merk != null && e.ingredient.merk.Contains(input)).ToList();
                                         
                     return View(filter);
                 }

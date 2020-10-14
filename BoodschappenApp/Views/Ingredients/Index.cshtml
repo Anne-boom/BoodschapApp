@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<IngredientDB.Ingredient>
 
+
 @{
     ViewBag.Title = "Index";
 }
@@ -33,21 +34,22 @@
 
             foreach (var item in Model)
             {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.merk)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ingredientID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ingredientID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ingredientID })
-            </td>
-        </tr>
-                }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.merk)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ingredientID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ingredientID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ingredientID })
+                    </td>
+                </tr>
             }
         }
+    }
 
 </table>
+
