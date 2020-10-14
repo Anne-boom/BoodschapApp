@@ -29,7 +29,7 @@ namespace BoodschappenApp.Controllers
 
                 if (userInput == null)
                 {
-                    message = "Verkeerde input";
+                    message = "Verkeerde invoer";
                 }
 
                 //User user = new User();
@@ -50,7 +50,7 @@ namespace BoodschappenApp.Controllers
                 }
                 else
                 {
-                    message = "user is not in the database";
+                    message = "Gebruiker is niet in de database.";
                 }
 
                 ViewBag.Message = message;

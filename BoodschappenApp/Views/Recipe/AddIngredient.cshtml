@@ -3,10 +3,10 @@
     ViewBag.Title = "AddIngredient";
 }
 
-<h2>Recept Ingredïent</h2>
+<h2>Recept Ingrediënt</h2>
 @if(ViewBag.User == false)
 {
-    <p1> Je kan geen ingredienten toevoegen van iemand anders recept</p1>
+    <p1> Je kan geen ingrediënten toevoegen aan iemand anders recept</p1>
 }
 
 @if(ViewBag.User == true){
@@ -21,7 +21,7 @@
 
 
 <p>
-    @Html.ActionLink("Maak Nieuw", "Create", "Ingredients", null, null)
+    @Html.ActionLink("Maak Nieuw Ingredient", "Create", "Ingredients", null, null)
 
 </p>
 <table class="table">

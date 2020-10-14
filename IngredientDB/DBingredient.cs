@@ -9,7 +9,10 @@ namespace IngredientDB
 {
     public class DBingredient : DbContext
     {
+        public DBingredient(): base("csharpopdracht-cs")
+        {
 
+        }
         
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<InventoryIngredient> InventoryIngredients { get; set; }
